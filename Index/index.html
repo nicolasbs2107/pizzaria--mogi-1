@@ -13,7 +13,10 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <!-- Quando houver uma foto real da pizza/logo, adicionar: <meta property="og:image" content="URL_DA_FOTO"> -->
-  <!-- Quando houver um favicon oficial, adicionar: <link rel="icon" type="image/png" href="/favicon.png"> -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <script type="application/ld+json" id="businessSchema"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,6 +156,12 @@
       font-size: 1.35rem;
       font-style: italic;
       color: var(--amber-soft);
+    }
+
+    .wordmark-logo {
+      display: block;
+      height: 40px;
+      width: auto;
     }
 
     nav.primary-nav {
@@ -1700,6 +1709,10 @@
         font-size: 1.05rem;
       }
 
+      .wordmark-logo {
+        height: 32px;
+      }
+
       .cart-trigger {
         padding: 9px 14px;
         font-size: 0.85rem;
@@ -1770,8 +1783,8 @@
   <header>
     <div class="header-row">
       <div class="wordmark">
-        <span class="wordmark-kicker">Pizzaria &amp; Esfiharia</span>
-        <span class="wordmark-city">Mogi das Cruzes</span>
+        <img class="wordmark-logo" src="logo-navbar.png" alt="Pizzaria e Esfiharia Mogi das Cruzes" width="157"
+          height="40">
       </div>
       <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menu"
         aria-expanded="false"><span></span></button>
