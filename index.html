@@ -4,16 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pizzaria e Esfiharia Mogi das Cruzes | Pizza e Esfiha 24 Horas</title>
+  <title>Pizzaria e Esfiharia Mogi das Cruzes | Pizza e Esfiha à Noite</title>
   <meta name="description"
-    content="Pizzaria e Esfiharia em Mogi das Cruzes, aberta 24 horas. Monte sua pizza meio a meio, peça esfihas e bebidas pelo site e finalize direto no WhatsApp.">
-  <meta property="og:title" content="Pizzaria e Esfiharia Mogi das Cruzes — Pizza e Esfiha 24 Horas">
+    content="Pizzaria e Esfiharia em Mogi das Cruzes. Monte sua pizza meio a meio, peça esfihas e bebidas pelo site e finalize direto no WhatsApp. Funcionamos todas as noites, das 18h à madrugada nos fins de semana.">
+  <meta property="og:title" content="Pizzaria e Esfiharia Mogi das Cruzes — Pizza e Esfiha à Noite">
   <meta property="og:description"
-    content="Pizza meio a meio, esfihas e bebidas em Mogi das Cruzes, com pedido finalizado direto no WhatsApp. Funcionamento 24 horas, todos os dias.">
+    content="Pizza meio a meio, esfihas e bebidas em Mogi das Cruzes, com pedido finalizado direto no WhatsApp. Aberto todas as noites a partir das 18h.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <!-- Quando houver uma foto real da pizza/logo, adicionar: <meta property="og:image" content="URL_DA_FOTO"> -->
   <!-- Quando houver um favicon oficial, adicionar: <link rel="icon" type="image/png" href="/favicon.png"> -->
+  <script type="application/ld+json" id="businessSchema"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -354,6 +355,7 @@
       font-weight: 600;
       color: var(--amber-soft);
       margin-bottom: 18px;
+      transition: color .2s ease;
     }
 
     .eyebrow-dot {
@@ -362,6 +364,17 @@
       border-radius: 50%;
       background: var(--amber);
       animation: pulse 2.6s ease-in-out infinite;
+      transition: background-color .2s ease;
+    }
+
+    .hero-eyebrow.is-closed {
+      color: var(--brick);
+    }
+
+    .hero-eyebrow.is-closed .eyebrow-dot {
+      background: var(--brick);
+      animation: none;
+      opacity: 0.75;
     }
 
     .hero-visual {
@@ -402,21 +415,26 @@
       font-weight: 600;
     }
 
-    .open-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
+    .hours-compact {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--ink-line);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
       font-size: 0.82rem;
       color: var(--cream-dim);
     }
 
-    .open-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--amber);
-      animation: pulse 2.6s ease-in-out infinite;
+    .hours-row span:last-child {
+      color: var(--cream);
+      font-weight: 600;
     }
 
     @keyframes pulse {
@@ -1302,6 +1320,29 @@
       margin-bottom: 12px;
     }
 
+    .footer-hours-label {
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+
+    .footer-hours {
+      margin-bottom: 12px;
+    }
+
+    .footer-hours-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: var(--cream-dim);
+      margin-bottom: 3px;
+    }
+
+    .footer-hours-row span:last-child {
+      color: var(--cream);
+    }
+
     a.footer-line {
       text-decoration: none;
       transition: color .2s ease;
@@ -1752,10 +1793,11 @@
     <section class="hero">
       <div class="wrap hero-grid">
         <div>
-          <span class="hero-eyebrow"><span class="eyebrow-dot"></span>ABERTO 24 HORAS</span>
-          <h1>O forno não apaga.<br>Nem de dia, nem de madrugada.</h1>
-          <p class="lede">Monte sua pizza, escolha as esfihas e as bebidas aqui mesmo no site. No fim, um clique manda
-            tudo pronto pro WhatsApp — 24 horas, todos os dias, em qualquer bairro de Mogi das Cruzes.</p>
+          <span class="hero-eyebrow" id="heroStatus"><span class="eyebrow-dot" id="heroStatusDot"></span><span
+              id="heroStatusText">Verificando horário…</span></span>
+          <h1>A noite começa.<br>O forno acende.</h1>
+          <p class="lede">Pizza e esfiha assadas na hora para a noite de Mogi — monte seu pedido aqui no site e finalize
+            direto no WhatsApp.</p>
           <div class="hero-ctas">
             <a class="btn btn-primary" href="#sabores">Montar meu pedido</a>
             <a class="text-link" id="ctaHeroDirect" href="#" target="_blank" rel="noopener">Falar direto no WhatsApp</a>
@@ -1789,7 +1831,7 @@
               <circle cx="100" cy="100" r="4" fill="var(--amber)" />
             </svg>
             <p class="clock-caption"><strong id="clockTime">--:--</strong> — <span id="clockMsg">carregando…</span></p>
-            <span class="open-pill"><span class="open-dot"></span>Aberto 24h</span>
+            <div class="hours-compact" id="heroHoursList" aria-label="Horário de funcionamento"></div>
           </div>
         </div>
       </div>
@@ -1959,7 +2001,7 @@
       <div class="wrap">
         <div class="section-head">
           <h2>Sabores de esfiha, sem enjoar</h2>
-          <p>Esfihas abertas, assadas na hora, com recheio generoso do primeiro ao último pedido da madrugada.</p>
+          <p>Esfihas abertas, assadas na hora, com recheio generoso do primeiro ao último pedido da noite.</p>
         </div>
         <ul class="order-list order-board product-grid" id="esfihaBoard"></ul>
       </div>
@@ -2054,8 +2096,8 @@
               <path d="M13 20 L16 10 H24 L27 20" fill="none" stroke="var(--brick)" stroke-width="2" />
             </svg></span>
           <div class="diff-text">
-            <h3>Forno a lenha aceso a qualquer hora</h3>
-            <p>De manhã, de tarde ou às três da madrugada: o forno já está quente quando o seu pedido chega.</p>
+            <h3>Forno aceso noite adentro</h3>
+            <p>Da abertura até o último pedido, o forno trabalha para servir tudo quentinho.</p>
           </div>
         </div>
         <div class="diff-row">
@@ -2097,7 +2139,7 @@
           <h2>A gente chega até você.</h2>
         </div>
         <div class="delivery-block">
-          <p>Entrega em Mogi das Cruzes, do almoço à madrugada.</p>
+          <p>Entrega em Mogi das Cruzes, do começo da noite até o último pedido.</p>
           <!-- Quando houver uma lista oficial de bairros atendidos e taxas, adicionar aqui (ex.: chips ou lista curta). -->
           <a class="btn btn-primary" id="ctaDeliveryWhats" href="#" target="_blank" rel="noopener">Consultar entrega
             pelo WhatsApp</a>
@@ -2125,7 +2167,7 @@
           <span class="wordmark-kicker">Pizzaria &amp; Esfiharia</span>
           <span class="wordmark-city">Mogi das Cruzes</span>
         </div>
-        <p class="footer-tag">Pizza e esfiha 24 horas em Mogi das Cruzes.</p>
+        <p class="footer-tag">Pizza e esfiha para a noite de Mogi das Cruzes.</p>
         <a class="btn btn-ghost" id="ctaFooterDirect" href="#" target="_blank" rel="noopener"
           style="margin-top:18px;">Falar no WhatsApp</a>
       </div>
@@ -2142,7 +2184,8 @@
       </div>
       <div>
         <span class="footer-col-title">Contato</span>
-        <span class="footer-line">Atendimento 24 horas</span>
+        <span class="footer-line footer-hours-label">Horário de funcionamento</span>
+        <div class="footer-hours" id="footerHoursList"></div>
         <span class="footer-line">Entrega em Mogi das Cruzes e região</span>
         <a class="footer-line" href="https://www.instagram.com/pizzariamogidascruzes/" target="_blank"
           rel="noopener">Instagram</a>
@@ -2236,6 +2279,61 @@
     ];
     // ================================================================================
 
+    // ================== HORÁRIO DE FUNCIONAMENTO: fonte única da verdade ==================
+    // Chave = dia da semana (0=domingo ... 6=sábado, igual ao Date.getDay()).
+    // "close" é o horário em que o atendimento daquele dia termina — se passar da meia-noite
+    // (ex.: sexta e sábado, que vão até 03:00), o código já entende que a virada continua no dia seguinte.
+    // Mude os horários AQUI e Hero, rodapé, status aberto/fechado e o schema de SEO acompanham automaticamente.
+    const OPENING_HOURS = {
+      0: { open: '18:00', close: '00:00' }, // domingo
+      1: { open: '18:00', close: '00:00' }, // segunda
+      2: { open: '18:00', close: '00:00' }, // terça
+      3: { open: '18:00', close: '00:00' }, // quarta
+      4: { open: '18:00', close: '00:00' }, // quinta
+      5: { open: '18:00', close: '03:00' }, // sexta (vira pro sábado de madrugada)
+      6: { open: '18:00', close: '03:00' }  // sábado (vira pro domingo de madrugada)
+    };
+    const DAY_LABELS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    const DAY_LABELS_FULL = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+
+    function toMinutes(hhmm) { const [h, m] = hhmm.split(':').map(Number); return h * 60 + m; }
+    function shortHour(hhmm) { return hhmm.split(':')[0] + 'h'; }
+
+    // Agrupa dias consecutivos com o mesmo horário (ex.: Dom–Qui e Sex–Sáb), direto da configuração acima.
+    function scheduleGroups() {
+      const groups = [];
+      for (let d = 0; d < 7; d++) {
+        const h = OPENING_HOURS[d];
+        const key = h.open + '-' + h.close;
+        const last = groups[groups.length - 1];
+        if (last && last.key === key) { last.days.push(d); }
+        else { groups.push({ key, days: [d], open: h.open, close: h.close }); }
+      }
+      return groups;
+    }
+
+    // Está aberto agora? Considera a virada do dia (ex.: sábado 01:00 pertence ao expediente de sexta).
+    function isRestaurantOpen(date) {
+      const day = date.getDay();
+      const minutes = date.getHours() * 60 + date.getMinutes();
+      const yesterday = OPENING_HOURS[(day + 6) % 7];
+      if (yesterday.close !== '00:00') {
+        if (minutes < toMinutes(yesterday.close)) return true;
+      }
+      const today = OPENING_HOURS[day];
+      return minutes >= toMinutes(today.open);
+    }
+
+    // Quando ainda estiver fechado, em que horário abre a seguir (hoje, ou amanhã se algum dia isso for necessário).
+    function nextOpeningTime(date) {
+      const day = date.getDay();
+      const minutes = date.getHours() * 60 + date.getMinutes();
+      const today = OPENING_HOURS[day];
+      if (minutes < toMinutes(today.open)) return today.open;
+      return OPENING_HOURS[(day + 1) % 7].open;
+    }
+    // ================================================================================
+
     function brl(n) { return 'R$ ' + n.toFixed(2).replace('.', ','); }
 
     const directLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Olá! Vim pelo site e quero fazer um pedido 🍕")}`;
@@ -2258,19 +2356,26 @@
       siteHeader.classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    // ---- clock ----
+    // ---- clock + status aberto/fechado ----
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hourHand = document.getElementById('hourHand');
     const minHand = document.getElementById('minHand');
     const secHand = document.getElementById('secHand');
     const clockTime = document.getElementById('clockTime');
     const clockMsg = document.getElementById('clockMsg');
-    function timeMessage(hour24) {
-      if (hour24 >= 6 && hour24 < 12) return 'Bom dia, Mogi. O forno já está aceso.';
-      if (hour24 >= 12 && hour24 < 18) return 'O forno segue aceso.';
-      if (hour24 >= 18 && hour24 < 24) return 'A noite começou. O forno continua aceso.';
-      return 'Mogi dorme. O forno não.';
+    const heroStatus = document.getElementById('heroStatus');
+    const heroStatusText = document.getElementById('heroStatusText');
+
+    function statusMessage(date) {
+      const hour = date.getHours();
+      if (isRestaurantOpen(date)) {
+        if (hour >= 18 && hour < 21) return 'A noite começou e o forno já está aceso.';
+        if (hour >= 21) return 'O forno segue aceso.';
+        return 'Mogi dorme. O forno continua aceso.';
+      }
+      return `Fechado agora. Abrimos às ${nextOpeningTime(date)}.`;
     }
+
     function updateClock() {
       const now = new Date();
       const h24 = now.getHours();
@@ -2279,10 +2384,46 @@
       minHand.setAttribute('transform', `rotate(${m * 6} 100 100)`);
       if (!reduceMotion) { secHand.setAttribute('transform', `rotate(${s * 6} 100 100)`); }
       clockTime.textContent = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-      clockMsg.textContent = timeMessage(h24);
+      clockMsg.textContent = statusMessage(now);
+
+      const open = isRestaurantOpen(now);
+      heroStatus.classList.toggle('is-closed', !open);
+      heroStatusText.textContent = open ? 'ABERTO AGORA' : 'FECHADO AGORA';
     }
     updateClock();
     setInterval(updateClock, reduceMotion ? 30000 : 1000);
+
+    // ---- horário compacto: Hero e rodapé, gerados a partir da mesma configuração ----
+    document.getElementById('heroHoursList').innerHTML = scheduleGroups().map(g => {
+      const label = g.days.length > 1 ? `${DAY_LABELS[g.days[0]]}–${DAY_LABELS[g.days[g.days.length - 1]]}` : DAY_LABELS[g.days[0]];
+      return `<div class="hours-row"><span>${label}</span><span>${shortHour(g.open)}–${shortHour(g.close)}</span></div>`;
+    }).join('');
+
+    document.getElementById('footerHoursList').innerHTML = scheduleGroups().map(g => {
+      const label = g.days.length > 1 ? `${DAY_LABELS_FULL[g.days[0]]} a ${DAY_LABELS_FULL[g.days[g.days.length - 1]]}` : DAY_LABELS_FULL[g.days[0]];
+      return `<div class="footer-hours-row"><span>${label}</span><span>${g.open} às ${g.close}</span></div>`;
+    }).join('');
+
+    // ---- Schema.org (JSON-LD): horário de funcionamento correto para buscadores ----
+    (function renderBusinessSchema() {
+      const schemaClose = t => t === '00:00' ? '24:00' : t;
+      const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "Pizzaria e Esfiharia Mogi das Cruzes",
+        "servesCuisine": ["Pizza", "Esfiha"],
+        "areaServed": "Mogi das Cruzes",
+        "openingHoursSpecification": scheduleGroups().map(g => ({
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": g.days.map(d => dayNames[d]),
+          "opens": g.open,
+          "closes": schemaClose(g.close)
+        }))
+      };
+      const tag = document.getElementById('businessSchema');
+      if (tag) tag.textContent = JSON.stringify(schema);
+    })();
 
     // ---- cart state ----
     const CART_STORAGE_KEY = 'pizzariaMogiCart_v1';
